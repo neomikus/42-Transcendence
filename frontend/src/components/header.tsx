@@ -1,19 +1,24 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Menubar } from 'primereact/menubar'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import type { MenuItem } from 'primereact/menuitem'
+
 import logo42 from '../img/42.png'
 import '../styles/header.css'
 
 function Header() {
+
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   const items: MenuItem[] = [
-    { label: 'Perfil', icon: 'pi pi-user' },
-    { label: 'Publicaciones', icon: 'pi pi-file' },
-    { label: 'Juego', icon: 'pi pi-play' },
+    { label: 'Home', icon: 'pi pi-user', command: () => navigate('/') },
+    { label: 'Publicaciones', icon: 'pi pi-file', command: () => navigate('/login')},
+    { label: 'Game', icon: 'pi pi-play', command: () => navigate('/game') },
     { separator: true, className: 'lg:hidden' },
+    { label: 'Opciones', icon: 'pi pi-wrench' },
     {
       className: 'lg:hidden',
       template: () => (
@@ -43,10 +48,10 @@ function Header() {
     },
   ]
 
-  const start = <img src={logo42} alt="42 logo" style={{ height: '36px' }} className="mr-3" />
+  const start = <img src={logo42} alt="42 logo" style={{ height: '36px' }} className="mr-3"/>
 
   const end = (
-    <div className="hidden lg:flex align-items-center gap-2">
+    <div className="hidden lg:flex align-items-center gap-2" >
       <InputText
         value={search}
         onChange={(e) => setSearch(e.target.value)}

@@ -1,13 +1,14 @@
-import '../styles/Perfil.css'
+import '../styles/Home.css'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import PersonalData from '../components/personal_data'
 import PostFeed from '../components/post'
 import Friends from '../components/friends'
 
-function Perfil() {
+
+function Home() {
   return (
-    <div className="p-3">
+    <div>
       <Header />
       <div className="grid">
         <div className="col-12 lg:col-3">
@@ -25,4 +26,4 @@ function Perfil() {
   )
 }
 
-export default Perfil
+export default Home
