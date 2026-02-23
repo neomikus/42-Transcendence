@@ -1,10 +1,10 @@
 // Variables y mixins globales
-@import 'variables';
+@use 'variables' as *;
 
 // Estilos de páginas
-@import 'pages/home';
-@import 'pages/login';
+@use 'pages/home';
+@use 'pages/login';
 
 // Estilos de componentes
-@import 'components/header';
-@import 'components/footer';
+@use 'components/header';
+@use 'components/footer';
