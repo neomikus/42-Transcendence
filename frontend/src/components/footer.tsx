@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <div className="surface-card px-4 py-3 mt-3 border-round-sm flex flex-column align-items-center gap-1">
+    <div className="footer-container surface-card px-4 py-3 mt-3 border-round-sm flex flex-column align-items-center gap-1">
       <small className="text-color-secondary">
         © 2026 Transcendence. Todos los derechos reservados.
       </small>
