@@ -22,7 +22,6 @@ make docker-db        # Levantar solo PostgreSQL (se mantiene corriendo)
 make docker-up        # Levantar frontend + backend (levanta BD automáticamente)
 make docker-down      # Detener frontend + backend (BD sigue corriendo)
 make docker-down-all  # Detener TODO incluyendo PostgreSQL
-make docker-logs      # Ver logs de los servicios
 make docker-clean     # ⚠️  Eliminar TODO (incluyendo datos de BD)
 make clean            # Limpiar node_modules y lock files
 ```

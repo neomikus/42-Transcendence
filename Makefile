@@ -1,4 +1,4 @@
-.PHONY: install dev dev-backend clean docker-db docker-up docker-down docker-clean docker-logs
+.PHONY: install dev dev-backend clean docker-db docker-up docker-down docker-down-all docker-clean
 
 # Colors
 GREEN = \033[0;32m
@@ -39,10 +39,6 @@ docker-down-all:
 	@echo "$(YELLOW)Deteniendo TODOS los servicios (incluyendo PostgreSQL)...$(NC)"
 	docker-compose down
 	docker-compose -f docker-compose.db.yml down
-
-docker-logs:
-	@echo "$(BLUE)Mostrando logs de los servicios...$(NC)"
-	docker-compose logs -f
 
 docker-clean:
 	@echo "$(YELLOW)⚠️  ADVERTENCIA: Esto eliminará TODOS los datos de la base de datos$(NC)"
