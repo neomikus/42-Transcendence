@@ -11,15 +11,21 @@ Esto levanta:
 
 Comandos disponibles
 
-Primera vez
+Primera vez todo desde la raiz del proyecto
 make install          # Instalar todas las dependencias (monorepo)
-make dev              # Iniciar frontend
-make dev-backend      # Iniciar backend
+
+y (
+    make dev              # Iniciar frontend
+    make dev-backend      # Iniciar backend
+)
+o
+(
+    make docker-up        # Levantar frontend + backend (levanta BD automáticamente)
+)
+
 
 Las demas:
-
 make docker-db        # Levantar solo PostgreSQL (se mantiene corriendo)
-make docker-up        # Levantar frontend + backend (levanta BD automáticamente)
 make docker-down      # Detener frontend + backend (BD sigue corriendo)
 make docker-down-all  # Detener TODO incluyendo PostgreSQL
 make docker-clean     # ⚠️  Eliminar TODO (incluyendo datos de BD)
@@ -29,3 +35,4 @@ make clean            # Limpiar node_modules y lock files
 ## 🔗 Enlaces
 
 Jira: https://transcendence-42-network.atlassian.net
+Drive modulos: https://docs.google.com/spreadsheets/d/1tWkKrj_4rcdVpjzi3vXjxSJlyZc2YZTWs9tetwJPIOQ/edit?gid=0#gid=0
