@@ -4,12 +4,22 @@ import { Menubar } from 'primereact/menubar'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import type { MenuItem } from 'primereact/menuitem'
+import { useAppDispatch } from '../store/hooks'
+import { clearUser } from '../store/authSlice'
+import { authAPI } from '../services/authAPI'
 import logo42 from '../img/42.png'
 
 function Header() {
 
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const handleLogout = async () => {
+    await authAPI.logout()
+    dispatch(clearUser())
+    navigate('/login')
+  }
 
   const items: MenuItem[] = [
     { label: 'Home', icon: 'pi pi-user', command: () => navigate('/') },
@@ -40,6 +50,7 @@ function Header() {
             severity="danger"
             outlined
             className="w-full"
+            onClick={handleLogout}
           />
         </div>
       ),
@@ -62,6 +73,7 @@ function Header() {
         severity="danger"
         outlined
         size="small"
+        onClick={handleLogout}
       />
     </div>
   )

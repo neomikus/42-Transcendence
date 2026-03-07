@@ -1,16 +1,48 @@
-import { Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { setUser, clearUser, setLoading } from '../store/authSlice'
+import { authAPI } from '../services/authAPI'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Game from '../pages/Game'
+import Callback from '../pages/Callback'
+import { ProgressSpinner } from 'primereact/progressspinner'
 
 function AppRoutes() {
+  const dispatch = useAppDispatch()
+  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const user = await authAPI.getCurrentUser()
+      if (user) {
+        dispatch(setUser(user))
+      } else {
+        dispatch(clearUser())
+      }
+      dispatch(setLoading(false))
+    }
+
+    checkAuth()
+  }, [dispatch])
+
+  if (isLoading) {
+    return (
+      <div className="flex align-items-center justify-content-center min-h-screen">
+        <ProgressSpinner />
+      </div>
+    )
+  }
 
   return (
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/game" element={<Game />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+    <Routes>
+      <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
+      <Route path="/callback" element={<Callback />} />
+      <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+      <Route path="/game" element={isAuthenticated ? <Game /> : <Navigate to="/login" />} />
+    </Routes>
   )
 }
 

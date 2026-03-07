@@ -5,9 +5,14 @@ Proyecto fullstack con React + Vite (frontend) y Node.js + Express (backend) + P
 Inicio rápido
 
 Esto levanta:
-1. PostgreSQL (queda corriendo siempre, datos persisten) (http://localhost:5432)
+1. Frontend (http://localhost:3000)
 2. Backend (http://localhost:4000)
-3. Frontend (http://localhost:3000)
+3. BBDD (http://localhost:8080)
+    3.1 Sistema: PostgreSQL
+    3.2 Servidor: postgres
+    3.3 Usuario: postgres
+    3.4 Contraseña: postgres
+    3.5 Base de datos: transcendence
 
 Comandos disponibles
 
