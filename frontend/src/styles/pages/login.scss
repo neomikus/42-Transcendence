@@ -1,3 +1,16 @@
-.p-password{
-    display: inline-block;
+.container-login
+{
+  background-image: url('../../img/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+    Button
+    {
+        background-color: #00babc;
+        border: none;
+        font-weight: bold;
+        border-radius: 0px;
+    }
 }
+
