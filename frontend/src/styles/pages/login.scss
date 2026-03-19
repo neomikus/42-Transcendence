@@ -1,3 +1,5 @@
+@use '../variables' as *;
+
 .container-login
 {
   background-image: url('../../img/background.jpg');
@@ -7,10 +9,16 @@
 
     Button
     {
-        background-color: #00babc;
-        border: none;
+      background-color: $color-3;
+      color: $color-text;
         font-weight: bold;
         border-radius: 0px;
+    }
+
+    Button:hover
+    {
+      background-color: $color-5;
+      color: $color-1;
     }
 }
 

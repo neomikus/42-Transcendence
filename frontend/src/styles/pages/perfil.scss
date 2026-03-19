@@ -1,0 +1,92 @@
+@use '../variables' as *;
+
+:root {
+  --bg-deep: #02131b;
+  --bg-mid: #031f2a;
+  --bg-soft: #053142;
+}
+
+body {
+  margin: $spacing-none;
+  color: $color-text;
+  background:
+    radial-gradient(circle at 8% 12%, rgba($color-5, 0.2) 0%, rgba($color-5, 0) 40%),
+    radial-gradient(circle at 92% 8%, rgba($color-4, 0.18) 0%, rgba($color-4, 0) 38%),
+    linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 46%, var(--bg-soft) 100%);
+  min-height: 100vh;
+  padding-bottom: 5.25rem;
+
+  .grid {
+    margin-right: 0;
+    margin-left: 0;
+    padding: 0.75rem;
+    gap: 0;
+  }
+}
+
+h1 {
+  color: $color-3;
+}
+
+.surface-card {
+  background:
+    linear-gradient(165deg, rgba($color-3, 0.96) 0%, rgba($color-2, 0.94) 100%) !important;
+  box-shadow:
+    0 12px 22px rgba(0, 0, 0, 0.35),
+    0 26px 46px rgba($color-1, 0.5),
+    inset 0 -1px 0 rgba($color-1, 0.25);
+  color: $color-text;
+}
+
+.surface-card h3,
+.surface-card p,
+.surface-card span,
+.surface-card small,
+.surface-card strong,
+.surface-card i,
+.surface-card li {
+  color: $color-text;
+}
+
+.text-color-secondary {
+  color: rgba($color-text, 0.75) !important;
+}
+
+.p-inputtextarea,
+.p-inputtext,
+.p-password-input {
+  background-color: rgba($color-1, 0.85) !important;
+  color: $color-text !important;
+}
+
+.p-inputtextarea::placeholder,
+.p-inputtext::placeholder {
+  color: rgba($color-text, 0.65);
+}
+
+.p-button {
+  background-color: $color-3;
+  border-color: $color-3;
+  color: $color-text;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba($color-2, 0.32);
+}
+
+.p-button:hover {
+  background-color: mix($color-3, $color-5, 60%);
+  border-color: mix($color-3, $color-5, 60%);
+  color: $color-1;
+}
+
+.p-button.p-button-text,
+.p-button.p-button-outlined {
+  background-color: transparent;
+  border-color: rgba($color-5, 0.6);
+  color: $color-5;
+}
+
+.p-card {
+  background: rgba($color-1, 0.28);
+  box-shadow: 0 8px 18px rgba($color-1, 0.28);
+}

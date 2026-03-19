@@ -4,8 +4,7 @@ import PersonalData from '../components/personal_data'
 import PostFeed from '../components/post'
 import Friends from '../components/friends'
 
-
-function Home() {
+function Perfil() {
   return (
     <div>
       <Header />
@@ -25,4 +24,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Perfil

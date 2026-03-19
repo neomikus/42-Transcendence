@@ -1,12 +1,19 @@
-.p-menubar {
+@use '../variables' as *;
+
+.p-menubar
+{
+  border-radius: 0px;
+  border: 0px;
+  background: linear-gradient(150deg, rgba($color-3, 0.97), rgba($color-2, 0.95));
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.32),
+    0 16px 34px rgba($color-1, 0.45);
   flex-wrap: wrap;
 
-  &-start {
-    flex: 1;
-  }
-
-  &-button {
-    margin-left: auto;
-    order: 2;
+  .p-menuitem-link
+  {
+    color: $color-text;
+    border-radius: 10px;
+    background-color: transparent;
   }
 }
