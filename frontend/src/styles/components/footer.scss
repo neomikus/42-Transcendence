@@ -1,6 +1,6 @@
 @use '../variables' as *;
 
-.footer-container {
+.footer-container{
   position: fixed;
   left: 0;
   right: 0;
@@ -8,10 +8,8 @@
   z-index: 20;
   border-radius: 0px;
   background: linear-gradient(150deg, rgba($color-3, 0.96), rgba($color-2, 0.94));
-  box-shadow:
-    0 -8px 18px rgba(0, 0, 0, 0.3),
-    0 -14px 30px rgba($color-1, 0.45);
-  color: $color-text;
+  box-shadow: 0 -8px 18px rgba(0, 0, 0, 0.3), 0 -14px 30px rgba($color-1, 0.45);
+  color: $color-text-write;
 }
 
 .footer-container a {
@@ -19,5 +17,5 @@
 }
 
 .footer-container a:hover {
-  color: $color-text;
+  color: $color-text-write;
 }

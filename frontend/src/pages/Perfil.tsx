@@ -1,7 +1,7 @@
 import Header from '../components/header'
 import Footer from '../components/footer'
 import PersonalData from '../components/personal_data'
-import PostFeed from '../components/post'
+import PostFeed from '../components/posts'
 import Friends from '../components/friends'
 
 function Perfil() {

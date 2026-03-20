@@ -79,7 +79,9 @@ function Header() {
   )
 
   return (
-    <Menubar model={items} start={start} end={end} className="mb-3" />
+    <div className="header-container">
+      <Menubar model={items} start={start} end={end} className="mb-3" />
+    </div>
   )
 }
 

@@ -1,7 +1,6 @@
 @use '../variables' as *;
 
-.p-menubar
-{
+.p-menubar{
   border-radius: 0px;
   border: 0px;
   background: linear-gradient(150deg, rgba($color-3, 0.97), rgba($color-2, 0.95));
@@ -12,8 +11,27 @@
 
   .p-menuitem-link
   {
-    color: $color-text;
+    color: $color-text-write;
     border-radius: 10px;
-    background-color: transparent;
+  }
+
+  .p-button
+  {
+    background-color: $color-4;
+    border-color: $color-4;
+    color: $color-text-write;
+    font-weight: bold;
+    border-radius: 0px;
+  }
+
+  .p-button:hover
+  {
+    background-color: $color-5;
+    border-color: $color-5;
+    color: $color-text-black;
+  }
+
+  .p-component:hover{
+    border-color: $color-4;
   }
 }

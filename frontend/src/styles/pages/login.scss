@@ -2,23 +2,30 @@
 
 .container-login
 {
-  background-image: url('../../img/background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  .p-card{
+    background: linear-gradient(165deg, rgba($color-3, 0.96) 0%, rgba($color-2, 0.94) 100%) !important;
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.35), 0 26px 46px rgba($color-1, 0.5), inset 0 -1px 0 rgba($color-1, 0.25);
+    color: $color-text-write;
 
-    Button
+    h1{
+      color: $color-text-write;
+    }
+    
+    .p-button
     {
-      background-color: $color-3;
-      color: $color-text;
-        font-weight: bold;
-        border-radius: 0px;
+      background-color: $color-4;
+      border-color: $color-4;
+      color: $color-text-write;
+      font-weight: bold;
+      border-radius: 0px;
     }
 
-    Button:hover
+    .p-button:hover
     {
       background-color: $color-5;
-      color: $color-1;
+      border-color: $color-5;
+      color: $color-text-black;
     }
+  }
 }
 

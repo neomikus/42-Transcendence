@@ -1,4 +1,3 @@
-// Variables y mixins globales
 @use 'variables' as *;
 
 // Estilos de páginas
@@ -7,4 +6,7 @@
 
 // Estilos de componentes
 @use 'components/header';
+@use 'components/personal_data';
+@use 'components/friends';
+@use 'components/posts';
 @use 'components/footer';

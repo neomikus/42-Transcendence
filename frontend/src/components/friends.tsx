@@ -16,19 +16,21 @@ const friends: Friend[] = [
 
 function Friends() {
   return (
-    <div className="border-round-sm p-3 surface-card">
-      <h3 className="mt-0 mb-3">Amigos</h3>
-      <ul className="list-none p-0 m-0">
-        {friends.map((friend) => (
-          <li key={friend.id} className="flex align-items-center gap-2 mb-3">
-            <span className="flex-1">{friend.name}</span>
-            <Badge
-              value={friend.online ? 'Online' : 'Offline'}
-              severity={friend.online ? 'success' : 'secondary'}
-            />
-          </li>
-        ))}
-      </ul>
+    <div className='friends-container'>
+      <div className="surface-card border-round-sm p-3">
+        <h3 className="mt-0 mb-3">Amigos</h3>
+        <ul className="list-none p-0 m-0">
+          {friends.map((friend) => (
+            <li key={friend.id} className="flex align-items-center gap-2 mb-3">
+              <span className="flex-1">{friend.name}</span>
+              <Badge
+                value={friend.online ? 'Online' : 'Offline'}
+                severity={friend.online ? 'success' : 'secondary'}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

@@ -13,7 +13,7 @@ function Login() {
         <div className="w-full px-3 md:px-0 md:w-30rem">
           <Card className="shadow-8">
             <div className="text-center mb-5">
-              <h1 className="text-900 text-4xl font-semibold mb-2">Transcendence</h1>
+              <h1 className="text-4xl font-semibold mb-2">Transcendence</h1>
             </div>
 
             <div className="flex flex-column gap-4">
