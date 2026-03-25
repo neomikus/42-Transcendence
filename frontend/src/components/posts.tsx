@@ -45,8 +45,8 @@ function PostFeed() {
           )}
           {posts.map((post) => (
             <Card key={post.id} className="w-full">
-              <p className="m-0 mb-2">{post.content}</p>
-              <small className="text-color-secondary">{post.date}</small>
+              <p className="texto mt-0 mb-5">{post.content}</p>
+              <small className="fecha text-color-secondary">{post.date}</small>
             </Card>
           ))}
         </div>

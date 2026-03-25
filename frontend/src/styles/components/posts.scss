@@ -10,6 +10,20 @@
         .p-card { 
         background: rgba($color-1, 0.28);
         box-shadow: 0 8px 18px rgba($color-1, 0.28);
+
+            .p-card-body{
+                color: $color-text-write;
+                .p-card-content{
+                    padding: 0px;
+                    .texto{
+                        text-align: justify;
+                    }
+                    .fecha{
+                        font-style: italic;
+                        font-size: 12px;
+                    }
+                }
+            }
         }
 
         .p-button{
