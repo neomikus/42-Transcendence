@@ -11,8 +11,22 @@
 
   .p-menuitem-link
   {
-    color: $color-text-write;
-    border-radius: 10px;
+    .p-menuitem-icon {
+      color: $color-text-write;
+    }
+    .p-menuitem-text{
+      color: $color-text-write;
+    }
+  }
+
+  .p-menuitem-link:hover
+  {
+    .p-menuitem-icon {
+      color: $color-text-black;
+    }
+    .p-menuitem-text{
+      color: $color-text-black;
+    }
   }
 
   .p-button
