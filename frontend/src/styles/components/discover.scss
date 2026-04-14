@@ -1,8 +1,6 @@
 @use '../variables' as *;
 
-.friends-container {
-    margin-bottom: 35px;
-
+.discover-container{
     .surface-card {
         height: 38vh;
         background: linear-gradient(165deg, rgba($color-3, 0.96) 0%, rgba($color-2, 0.94) 100%) !important;

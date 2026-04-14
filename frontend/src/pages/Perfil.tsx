@@ -3,6 +3,7 @@ import Footer from '../components/footer'
 import PersonalData from '../components/personal_data'
 import PostFeed from '../components/posts'
 import Friends from '../components/friends'
+import Discover from '../components/discover'
 
 function Perfil() {
   return (
@@ -17,6 +18,7 @@ function Perfil() {
         </div>
         <div className="col-12 lg:col-3">
           <Friends />
+          <Discover />
         </div>
       </div>
       <Footer />
