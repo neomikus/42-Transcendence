@@ -10,9 +10,83 @@
         box-shadow: 0 12px 22px rgba(0, 0, 0, 0.35), 0 26px 46px rgba($color-1, 0.5), inset 0 -1px 0 rgba($color-1, 0.25);
         color: $color-text-write;
 
+        h3 {
+            margin: 0 0 1rem 0;
+        }
+
+        // Sección de publicar
+        .posts-form {
+            
+            .post-comment {
+                border: 1px solid var(--surface-border);
+                border-radius: 6px;
+                padding: 0.5rem;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .post-comment-textarea {
+                    position: relative;
+
+                    &.with-image {
+                        margin-bottom: 0.5rem;
+                    }
+                }
+
+                .character-counter {
+                    position: absolute;
+                    font-style: italic;
+                    top: 4.3rem;
+                    right: 1rem;
+                    color: rgb(173, 173, 173);
+                    font-size: 0.85rem;
+                    z-index: 10;
+                    pointer-events: none;
+                }
+
+                .preview-image-container {
+                    margin-bottom: 0.5rem;
+
+                    .preview-image {
+                        width: 25%;
+                        border-radius: 8px;
+                    }
+                }
+
+                .hidden-file-input {
+                    display: none;
+                }
+
+                .post-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    justify-content: space-between;
+
+                    label {
+                        margin: 0;
+                        cursor: pointer;
+                    }
+                }
+
+                .image-error {
+                    color: var(--red-500);
+                    font-size: 0.85rem;
+                    margin-top: 0.25rem;
+                }
+            }
+        }
+
         .p-card { 
-        background: rgba($color-1, 0.28);
-        box-shadow: 0 8px 18px rgba($color-1, 0.28);
+            background: rgba($color-1, 0.28);
+            box-shadow: 0 8px 18px rgba($color-1, 0.28);
+
+            .post-image {
+                width: 50%;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+            }
 
             .p-card-body{
                 color: $color-text-write;
@@ -48,9 +122,12 @@
         }
 
         // Contenedor de posts con scroll
-        .flex.flex-column.gap-3 {
+        .posts-list {
             flex: 1;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
             padding-right: 8px;
             
             // Estilos para la barra de scroll
@@ -72,7 +149,30 @@
                 }
             }
         }
+
+        // Old selector for backward compatibility
+        .flex.flex-column.gap-3 {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+            
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            &::-webkit-scrollbar-track {
+                background: rgba($color-1, 0.2);
+                border-radius: 3px;
+            }
+            
+            &::-webkit-scrollbar-thumb {
+                background: rgba($color-5, 0.5);
+                border-radius: 3px;
+                
+                &:hover {
+                    background: rgba($color-5, 0.8);
+                }
+            }
+        }
     }
-
-
 }
