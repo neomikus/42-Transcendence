@@ -20,12 +20,12 @@ function Discover() {
       <div className="surface-card border-round-sm p-3">
         <h3 className="mt-0 mb-3">Descubre</h3>
         <ul className="list-none p-0 m-0">
-          {discover.map((discover) => (
-            <li key={discover.id} className="flex align-items-center gap-2 mb-3">
-              <span className="flex-1">{discover.name}</span>
+          {discover.map((user) => (
+            <li key={user.id} className="flex align-items-center gap-2 mb-3">
+              <span className="flex-1">{user.name}</span>
               <Badge
-                value={discover.online ? 'Online' : 'Offline'}
-                severity={discover.online ? 'success' : 'secondary'}
+                value={user.online ? 'Online' : 'Offline'}
+                severity={user.online ? 'success' : 'secondary'}
               />
             </li>
           ))}

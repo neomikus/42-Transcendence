@@ -1,12 +1,587 @@
 @use '../variables' as *;
 
 .friends-container {
-    margin-bottom: 35px;
+  margin-bottom: 35px;
 
-    .surface-card {
-        height: 39vh;
-        background: linear-gradient(165deg, rgba($color-3, 0.96) 0%, rgba($color-2, 0.94) 100%) !important;
-        box-shadow: 0 12px 22px rgba(0, 0, 0, 0.35), 0 26px 46px rgba($color-1, 0.5), inset 0 -1px 0 rgba($color-1, 0.25);
-        color: $color-text-write;
+  .surface-card {
+    height: 39vh;
+    background: linear-gradient(135deg, rgba($color-3, 0.98) 0%, rgba($color-2, 0.96) 50%, rgba($color-3, 0.97) 100%) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 20px 40px rgba($color-1, 0.4), inset 0 1px 0 rgba($color-5, 0.1);
+    color: $color-text-write;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba($color-4, 0.15);
+
+    h3 {
+      color: $color-text-write;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
     }
+  }
+
+  // Tabs
+  :deep(.p-tabview) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+
+    .p-tabview-nav {
+      background: linear-gradient(90deg, rgba($color-2, 0.8) 0%, rgba($color-2, 0.6) 100%);
+      border-color: rgba($color-4, 0.2);
+      border-bottom: 2px solid rgba($color-4, 0.3);
+      flex-shrink: 0;
+      padding: 0 0.5rem;
+      
+      .p-tabview-nav-link {
+        color: $color-5;
+        border-color: transparent;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: rgba($color-4, 0.2);
+          color: $color-text-write;
+        }
+
+        &.p-tabview-nav-link-active {
+          background: linear-gradient(135deg, rgba($color-4, 0.9) 0%, rgba($color-4, 0.7) 100%);
+          border-color: transparent;
+          color: $color-text-write;
+          box-shadow: 0 4px 8px rgba($color-4, 0.3), inset 0 1px 0 rgba($color-5, 0.2);
+
+          .p-tabview-left-icon,
+          .p-tabview-right-icon {
+            color: $color-text-write;
+          }
+        }
+      }
+    }
+
+    .p-tabview-panels {
+      background-color: none !important;
+      padding: 0 !important;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p-tabview-panel {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
+      min-height: 0;
+    }
+  }
+
+  // Contenedor scrollable
+  .friends-list,
+  .requests-list {
+    max-height: 26vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(180deg, rgba($color-2, 0.4) 0%, rgba($color-2, 0.2) 100%);
+    border-radius: 6px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba($color-4, 0.05);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba($color-4, 0.4);
+      border-radius: 3px;
+
+      &:hover {
+        background: $color-4;
+      }
+    }
+  }
+
+  // Tarjetas de amigos
+  .friend-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, rgba($color-2, 0.8) 0%, rgba($color-2, 0.6) 100%);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba($color-4, 0.25);
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background: linear-gradient(135deg, rgba($color-4, 0.2) 0%, rgba($color-4, 0.1) 100%);
+      border-color: rgba($color-4, 0.6);
+      transform: translateX(3px);
+      box-shadow: 0 4px 12px rgba($color-4, 0.2);
+    }
+
+    .friend-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      min-width: 0;
+
+      .friend-avatar {
+        position: relative;
+        flex-shrink: 0;
+        
+        :deep(.p-avatar) {
+          background: linear-gradient(135deg, $color-4 0%, $color-5 100%);
+          color: $color-text-write;
+          width: 44px;
+          height: 44px;
+          font-size: 0.9rem;
+          font-weight: 600;
+          border: 2px solid rgba($color-5, 0.3);
+          
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        .status-indicator {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: 2px solid $color-3;
+
+          &.online {
+            background-color: #10b981;
+            box-shadow: 0 0 4px #10b981;
+          }
+
+          &.offline {
+            background-color: #6b7280;
+          }
+        }
+      }
+
+      .friend-details {
+        min-width: 0;
+        
+        h4 {
+          color: $color-text-write;
+          font-size: 0.95rem;
+          font-weight: 700;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          letter-spacing: 0.2px;
+        }
+
+        small {
+          font-size: 0.8rem;
+          color: $color-5;
+
+          .text-success {
+            color: #10b981;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+          }
+        }
+      }
+    }
+
+    .friend-actions {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+
+      :deep(.p-button) {
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  // Tarjetas de solicitudes
+  .request-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, rgba($color-2, 0.8) 0%, rgba($color-2, 0.6) 100%);
+    border-radius: 8px;
+    border-left: 4px solid $color-4;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background: linear-gradient(135deg, rgba($color-4, 0.2) 0%, rgba($color-4, 0.1) 100%);
+      border-left-color: $color-5;
+      box-shadow: 0 4px 12px rgba($color-4, 0.2);
+      transform: translateX(2px);
+    }
+
+    .request-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      min-width: 0;
+
+      :deep(.p-avatar) {
+        background: linear-gradient(135deg, $color-4 0%, $color-5 100%);
+        color: $color-text-write;
+        width: 40px;
+        height: 40px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        flex-shrink: 0;
+        border: 2px solid rgba($color-5, 0.3);
+        
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      .request-details {
+        min-width: 0;
+        
+        h4 {
+          color: $color-text-write;
+          font-size: 0.95rem;
+          font-weight: 700;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          letter-spacing: 0.2px;
+        }
+
+        small {
+          color: $color-5;
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .request-actions {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+
+      :deep(.p-button) {
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  // Estado vacío
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: $color-5;
+    text-align: center;
+
+    i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.4;
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+
+  // Sección agregar amigo (pestaña)
+  .add-friend-tab {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .search-box {
+      :deep(.p-inputtext) {
+        background: linear-gradient(135deg, rgba($color-2, 0.8) 0%, rgba($color-2, 0.6) 100%);
+        border: 2px solid rgba($color-4, 0.3);
+        color: $color-text-write;
+        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+
+        &:focus {
+          border-color: $color-4;
+          box-shadow: 0 0 0 3px rgba($color-4, 0.2), inset 0 1px 2px rgba($color-4, 0.1);
+          background: linear-gradient(135deg, rgba($color-2, 0.9) 0%, rgba($color-2, 0.8) 100%);
+        }
+
+        &::placeholder {
+          color: rgba($color-5, 0.6);
+        }
+      }
+    }
+
+    .search-results-inline {
+      max-height: 20vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+
+      .search-result-item {
+        padding: 0.9rem;
+        background: linear-gradient(135deg, rgba($color-2, 0.8) 0%, rgba($color-2, 0.6) 100%);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba($color-4, 0.25);
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+        &:hover {
+          background: linear-gradient(135deg, rgba($color-4, 0.2) 0%, rgba($color-4, 0.1) 100%);
+          border-color: rgba($color-4, 0.6);
+          box-shadow: 0 4px 10px rgba($color-4, 0.2);
+          transform: translateY(-1px);
+        }
+
+        :deep(.p-avatar) {
+          background-color: $color-4;
+          color: $color-text-write;
+          width: 36px;
+          height: 36px;
+          font-size: 0.75rem;
+          flex-shrink: 0;
+          
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        h4 {
+          color: $color-text-write;
+          font-size: 0.9rem;
+          margin: 0;
+          font-weight: 600;
+        }
+
+        small {
+          color: $color-5;
+          font-size: 0.8rem;
+        }
+
+        :deep(.p-button) {
+          &.p-button-text {
+            color: $color-4;
+
+            &:hover {
+              background-color: rgba($color-4, 0.1);
+            }
+          }
+        }
+      }
+
+      // Scrollbar personalizado
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba($color-4, 0.05);
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba($color-4, 0.3);
+        border-radius: 3px;
+
+        &:hover {
+          background: $color-4;
+        }
+      }
+    }
+
+    .empty-state-search {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      color: $color-5;
+      text-align: center;
+
+      i {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        opacity: 0.4;
+      }
+
+      p {
+        font-size: 0.95rem;
+        margin: 0;
+      }
+    }
+  }
+
+
+
+  // Botones generales
+  :deep(.p-button) {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+
+    &.p-button-sm {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.8rem;
+    }
+
+    &:not(.p-button-text):not(.p-button-rounded) {
+      background: linear-gradient(135deg, $color-4 0%, $color-5 100%);
+      border: 1px solid rgba($color-5, 0.4);
+      color: $color-text-write;
+      box-shadow: 0 4px 8px rgba($color-4, 0.2);
+
+      &:hover {
+        background: linear-gradient(135deg, $color-5 0%, rgba($color-4, 1.1) 100%);
+        border-color: $color-text-write;
+        box-shadow: 0 6px 12px rgba($color-4, 0.35);
+        transform: translateY(-2px);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-4, 0.3), 0 4px 8px rgba($color-4, 0.2);
+      }
+    }
+
+    &.p-button-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border: 1px solid rgba(#10b981, 0.4);
+      box-shadow: 0 4px 8px rgba(#10b981, 0.2);
+
+      &:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        box-shadow: 0 6px 12px rgba(#10b981, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+
+    &.p-button-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      border: 1px solid rgba(#ef4444, 0.4);
+      box-shadow: 0 4px 8px rgba(#ef4444, 0.2);
+
+      &:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        border-color: #ef4444;
+        box-shadow: 0 6px 12px rgba(#ef4444, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+
+    &.p-button-warning {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: 1px solid rgba(#f59e0b, 0.4);
+      box-shadow: 0 4px 8px rgba(#f59e0b, 0.2);
+
+      &:hover {
+        background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+        box-shadow: 0 6px 12px rgba(#f59e0b, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+
+    &.p-button-text {
+      transition: all 0.3s ease;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: rgba($color-4, 0.15);
+      }
+    }
+
+    &.p-button-rounded {
+      transition: all 0.3s ease;
+      width: 32px !important;
+      height: 32px !important;
+      padding: 0 !important;
+
+      &:hover {
+        transform: scale(1.15);
+      }
+    }
+  }
+
+  // Responsive
+  @media (max-width: 768px) {
+    .surface-card {
+      height: auto;
+      max-height: 60vh;
+    }
+
+    .friends-list,
+    .requests-list {
+      max-height: 15vh;
+    }
+
+    :deep(.p-button) {
+      &.p-button-sm {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+// Textos auxiliares
+.text-secondary {
+  color: $color-5;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .friend-card,
+  .request-card {
+    flex-direction: row;
+  }
+
+  :deep(.p-dialog) {
+    width: 95vw !important;
+  }
 }

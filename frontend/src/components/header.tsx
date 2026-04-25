@@ -11,7 +11,6 @@ import logo42 from '../img/42.png'
 
 function Header() {
 
-  const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
@@ -32,8 +31,6 @@ function Header() {
       template: () => (
         <div className="px-3 py-2">
           <InputText
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
             className="w-full"
           />
@@ -62,8 +59,6 @@ function Header() {
   const end = (
     <div className="hidden lg:flex align-items-center gap-2" >
       <InputText
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
         placeholder="Buscar..."
         className="p-inputtext-sm"
       />

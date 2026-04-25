@@ -149,30 +149,5 @@
                 }
             }
         }
-
-        // Old selector for backward compatibility
-        .flex.flex-column.gap-3 {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 8px;
-            
-            &::-webkit-scrollbar {
-                width: 6px;
-            }
-            
-            &::-webkit-scrollbar-track {
-                background: rgba($color-1, 0.2);
-                border-radius: 3px;
-            }
-            
-            &::-webkit-scrollbar-thumb {
-                background: rgba($color-5, 0.5);
-                border-radius: 3px;
-                
-                &:hover {
-                    background: rgba($color-5, 0.8);
-                }
-            }
-        }
     }
 }
