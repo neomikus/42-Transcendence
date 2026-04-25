@@ -150,6 +150,7 @@ function PostFeed() {
           )}
           {filteredPosts.map((post) => (
             <Card key={post.id} className="w-full">
+              <p className="texto mt-0 mb-5">{post.content}</p>
               {post.image && (
                 <img
                   src={post.image}
@@ -157,8 +158,7 @@ function PostFeed() {
                   className="post-image"
                 />
               )}
-              <p className="texto mt-0 mb-5">{post.content}</p>
-              <small className="fecha text-color-secondary">{post.date}</small>
+              <p className="fecha text-color-secondary">{post.date}</p>
             </Card>
           ))}
         </div>
