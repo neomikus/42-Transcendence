@@ -14,8 +14,14 @@ function AppRoutes() {
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
+    let mounted = true
+
     const checkAuth = async () => {
       const user = await authAPI.getCurrentUser()
+      if (!mounted) {
+        return
+      }
+
       if (user) {
         dispatch(setUser(user))
       } else {
@@ -25,6 +31,10 @@ function AppRoutes() {
     }
 
     checkAuth()
+
+    return () => {
+      mounted = false
+    }
   }, [dispatch])
 
   if (isLoading) {

@@ -21,10 +21,9 @@ function Header() {
 
   const items: MenuItem[] = [
     { label: 'Perfil', icon: 'pi pi-user', command: () => navigate('/') },
-    { label: 'Publicaciones', icon: 'pi pi-file', command: () => navigate('/login')},
+    { label: 'Publicaciones', icon: 'pi pi-file', command: () => navigate('/')},
     { label: 'Game', icon: 'pi pi-play', command: () => navigate('/game') },
     { separator: true, className: 'lg:hidden' },
-    { label: 'Opciones', icon: 'pi pi-wrench' },
     {
       className: 'lg:hidden',
       template: () => (

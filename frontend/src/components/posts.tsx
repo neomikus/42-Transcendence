@@ -3,6 +3,8 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024 // 2 MB
+
 interface Post {
   id: number
   content: string
@@ -20,8 +22,6 @@ function PostFeed() {
   const [image, setImage] = useState<string | null>(null)
   const [imageError, setImageError] = useState<string>('')
 
-  const MAX_SIZE = 2 * 1024 * 1024 // 2 MB
-
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -35,7 +35,7 @@ function PostFeed() {
     }
 
     // Validar tamaño (máximo 2 MB)
-    if (file.size > MAX_SIZE) {
+    if (file.size > MAX_IMAGE_SIZE) {
       setImageError(`La imagen es demasiado pesada. Máximo 2 MB (actual: ${(file.size / 1024 / 1024).toFixed(2)} MB)`)
       return
     }
@@ -57,7 +57,7 @@ function PostFeed() {
       isFromFriend: false,
       image: image || null,
     }
-    setPosts([newPost, ...posts])
+    setPosts((currentPosts) => [newPost, ...currentPosts])
     setText('')
     setImage(null)
     setImageError('')
@@ -115,7 +115,6 @@ function PostFeed() {
                 <Button
                   label={image ? "Imagen seleccionada ✓" : "Añadir imagen"}
                   icon="pi pi-image"
-                  onClick={() => document.getElementById('image-input')?.click()}
                   severity={image ? 'success' : 'secondary'}
                   text
                   className="cursor-pointer"

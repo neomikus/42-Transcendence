@@ -10,10 +10,14 @@ function Callback() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    let mounted = true
+
     const handleCallback = async () => {
       try {
-        // Obtener el usuario autenticado del backend
         const user = await authAPI.getCurrentUser()
+        if (!mounted) {
+          return
+        }
         
         if (user) {
           dispatch(setUser(user))
@@ -23,13 +27,21 @@ function Callback() {
         }
       } catch (error) {
         console.error('Error en callback:', error)
-        navigate('/login')
+        if (mounted) {
+          navigate('/login')
+        }
       } finally {
-        dispatch(setLoading(false))
+        if (mounted) {
+          dispatch(setLoading(false))
+        }
       }
     }
 
     handleCallback()
+
+    return () => {
+      mounted = false
+    }
   }, [dispatch, navigate])
 
   return (

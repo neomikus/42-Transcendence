@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { TabView, TabPanel } from 'primereact/tabview'
 import { InputText } from 'primereact/inputtext'
 import { Avatar } from 'primereact/avatar'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { Toast } from 'primereact/toast'
-import { useRef } from 'react'
 
 interface Friend {
   id: number
@@ -24,44 +23,45 @@ interface PendingRequest {
   requestedAt: string
 }
 
+const INITIAL_FRIENDS: Friend[] = [
+  { id: 1, name: 'alejanr2', email: 'alejanr2@student.42', avatar: 'https://via.placeholder.com/40?text=AR', online: true, lastSeen: 'Ahora' },
+  { id: 2, name: 'Andefern', email: 'andefern@student.42', avatar: 'https://via.placeholder.com/40?text=AF', online: false, lastSeen: 'Hace 2 horas' },
+  { id: 3, name: 'fcasaubo', email: 'fcasaubo@student.42', avatar: 'https://via.placeholder.com/40?text=FC', online: true, lastSeen: 'Ahora' },
+  { id: 4, name: 'xortega', email: 'xortega@student.42', avatar: 'https://via.placeholder.com/40?text=XO', online: false, lastSeen: 'Hace 5 horas' },
+]
+
+const INITIAL_PENDING_REQUESTS: PendingRequest[] = [
+  { id: 10, name: 'varysito', email: 'varysito@student.42', avatar: 'https://via.placeholder.com/40?text=VY', requestedAt: '2025-04-24' },
+  { id: 11, name: 'mgarcia', email: 'mgarcia@student.42', avatar: 'https://via.placeholder.com/40?text=MG', requestedAt: '2025-04-23' },
+  { id: 12, name: 'jperez', email: 'jperez@student.42', avatar: 'https://via.placeholder.com/40?text=JP', requestedAt: '2025-04-22' },
+  { id: 13, name: 'alopez', email: 'alopez@student.42', avatar: 'https://via.placeholder.com/40?text=AL', requestedAt: '2025-04-21' },
+]
+
+const SEARCH_USERS: Friend[] = [
+  { id: 100, name: 'nuevousuario1', email: 'nuevousuario1@student.42', avatar: 'https://via.placeholder.com/40?text=NU', online: false },
+  { id: 101, name: 'testuser', email: 'testuser@student.42', avatar: 'https://via.placeholder.com/40?text=TU', online: true },
+]
+
 function Friends() {
   const toast = useRef<Toast>(null)
   
-  // Estado: Datos
-  const [friendsList, setFriendsList] = useState<Friend[]>([
-    { id: 1, name: 'alejanr2', email: 'alejanr2@student.42', avatar: 'https://via.placeholder.com/40?text=AR', online: true, lastSeen: 'Ahora' },
-    { id: 2, name: 'Andefern', email: 'andefern@student.42', avatar: 'https://via.placeholder.com/40?text=AF', online: false, lastSeen: 'Hace 2 horas' },
-    { id: 3, name: 'fcasaubo', email: 'fcasaubo@student.42', avatar: 'https://via.placeholder.com/40?text=FC', online: true, lastSeen: 'Ahora' },
-    { id: 4, name: 'xortega', email: 'xortega@student.42', avatar: 'https://via.placeholder.com/40?text=XO', online: false, lastSeen: 'Hace 5 horas' },
-  ])
+  const [friendsList, setFriendsList] = useState<Friend[]>(INITIAL_FRIENDS)
+  const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>(INITIAL_PENDING_REQUESTS)
 
-  const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>([
-    { id: 10, name: 'varysito', email: 'varysito@student.42', avatar: 'https://via.placeholder.com/40?text=VY', requestedAt: '2025-04-24' },
-    { id: 11, name: 'mgarcia', email: 'mgarcia@student.42', avatar: 'https://via.placeholder.com/40?text=MG', requestedAt: '2025-04-23' },
-    { id: 12, name: 'jperez', email: 'jperez@student.42', avatar: 'https://via.placeholder.com/40?text=JP', requestedAt: '2025-04-22' },
-    { id: 13, name: 'alopez', email: 'alopez@student.42', avatar: 'https://via.placeholder.com/40?text=AL', requestedAt: '2025-04-21' },
-  ])
-
-  // Estado: UI
   const [searchInput, setSearchInput] = useState('')
-  const [filteredSearch, setFilteredSearch] = useState<Friend[]>([
-    { id: 100, name: 'nuevousuario1', email: 'nuevousuario1@student.42', avatar: 'https://via.placeholder.com/40?text=NU', online: false },
-    { id: 101, name: 'testuser', email: 'testuser@student.42', avatar: 'https://via.placeholder.com/40?text=TU', online: true },
-  ])
 
-  // Funciones
   const handleSearchFriend = (value: string) => {
     setSearchInput(value)
-    if (value.trim().length > 0) {
-      // Aquí iría la búsqueda real desde el backend
-      const filtered = filteredSearch.filter(u => 
-        u.name.toLowerCase().includes(value.toLowerCase())
-      )
-      setFilteredSearch(filtered)
-    } else {
-      setFilteredSearch([])
-    }
   }
+
+  const filteredSearch = useMemo(() => {
+    const query = searchInput.trim().toLowerCase()
+    if (!query) {
+      return []
+    }
+
+    return SEARCH_USERS.filter((user) => user.name.toLowerCase().includes(query))
+  }, [searchInput])
 
   const handleAddFriend = (friend: Friend) => {
     confirmDialog({
@@ -69,15 +69,17 @@ function Friends() {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        setPendingRequests([...pendingRequests, {
-          id: friend.id,
-          name: friend.name,
-          email: friend.email,
-          avatar: friend.avatar,
-          requestedAt: new Date().toISOString().split('T')[0]
-        }])
+        setPendingRequests((currentRequests) => [
+          ...currentRequests,
+          {
+            id: friend.id,
+            name: friend.name,
+            email: friend.email,
+            avatar: friend.avatar,
+            requestedAt: new Date().toISOString().split('T')[0],
+          },
+        ])
         setSearchInput('')
-        setFilteredSearch([])
         toast.current?.show({ severity: 'success', summary: 'Éxito', detail: `Solicitud enviada a ${friend.name}` })
       }
     })
@@ -89,15 +91,18 @@ function Friends() {
       header: 'Confirmar',
       icon: 'pi pi-check',
       accept: () => {
-        setFriendsList([...friendsList, {
-          id: request.id,
-          name: request.name,
-          email: request.email,
-          avatar: request.avatar,
-          online: false,
-          lastSeen: 'Nunca'
-        }])
-        setPendingRequests(pendingRequests.filter(r => r.id !== request.id))
+        setFriendsList((currentFriends) => [
+          ...currentFriends,
+          {
+            id: request.id,
+            name: request.name,
+            email: request.email,
+            avatar: request.avatar,
+            online: false,
+            lastSeen: 'Nunca',
+          },
+        ])
+        setPendingRequests((currentRequests) => currentRequests.filter((r) => r.id !== request.id))
         toast.current?.show({ severity: 'success', summary: 'Éxito', detail: `${request.name} ha sido añadido como amigo` })
       }
     })
@@ -109,7 +114,7 @@ function Friends() {
       header: 'Confirmar',
       icon: 'pi pi-times',
       accept: () => {
-        setPendingRequests(pendingRequests.filter(r => r.id !== request.id))
+        setPendingRequests((currentRequests) => currentRequests.filter((r) => r.id !== request.id))
         toast.current?.show({ severity: 'info', summary: 'Rechazada', detail: `Solicitud de ${request.name} rechazada` })
       }
     })
@@ -121,7 +126,7 @@ function Friends() {
       header: 'Confirmar',
       icon: 'pi pi-times',
       accept: () => {
-        setFriendsList(friendsList.filter(f => f.id !== friend.id))
+        setFriendsList((currentFriends) => currentFriends.filter((f) => f.id !== friend.id))
         toast.current?.show({ severity: 'info', summary: 'Eliminado', detail: `${friend.name} ha sido eliminado` })
       }
     })

@@ -1,13 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+import type { User } from '../types/auth'
 
-export interface User {
-  id: number;
-  intra_id: string;
-  username: string;
-  email: string;
-  full_name: string;
-  avatar_url: string;
-}
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 export const authAPI = {
   // Obtener usuario actual
