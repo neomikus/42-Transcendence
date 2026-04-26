@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
@@ -16,6 +16,7 @@ interface Post {
 type FilterType = 'all' | 'my_posts' | 'friends_posts'
 
 function PostFeed() {
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [text, setText] = useState<string>('')
   const [filter, setFilter] = useState<FilterType>('all')
@@ -44,6 +45,8 @@ function PostFeed() {
     const reader = new FileReader()
     reader.onloadend = () => {
       setImage(reader.result as string)
+      // Permite seleccionar de nuevo el mismo archivo si el usuario quiere.
+      e.target.value = ''
     }
     reader.readAsDataURL(file)
   }
@@ -102,24 +105,24 @@ function PostFeed() {
 
             {/* Input file oculto */}
             <input
+              ref={fileInputRef}
               type="file"
               accept="image/*"
               onChange={handleImageSelect}
-              id="image-input"
               className="hidden-file-input"
             />
 
             {/* Botones de acción */}
             <div className="post-actions">
-              <label htmlFor="image-input">
-                <Button
-                  label={image ? "Imagen seleccionada ✓" : "Añadir imagen"}
-                  icon="pi pi-image"
-                  severity={image ? 'success' : 'secondary'}
-                  text
-                  className="cursor-pointer"
-                />
-              </label>
+              <Button
+                type="button"
+                label={image ? "Imagen seleccionada ✓" : "Añadir imagen"}
+                icon="pi pi-image"
+                severity={image ? 'success' : 'secondary'}
+                text
+                className="cursor-pointer"
+                onClick={() => fileInputRef.current?.click()}
+              />
               <Button label="Publicar" icon="pi pi-send" onClick={handlePost} disabled={!text.trim()} />
             </div>
 

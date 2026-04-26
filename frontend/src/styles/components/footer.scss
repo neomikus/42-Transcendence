@@ -15,15 +15,15 @@
     max-width: 92ch;
     color: rgba($color-text-write, 0.82);
   }
-}
 
-.footer-container a {
-  color: $color-accent;
-}
+  a {
+    color: $color-accent;
 
-.footer-container a:hover {
-  color: $color-text-write;
-  text-decoration-thickness: 2px;
+    &:hover {
+      color: $color-text-write;
+      text-decoration-thickness: 2px;
+    }
+  }
 }
 
 @media (max-width: $bp-sm) {

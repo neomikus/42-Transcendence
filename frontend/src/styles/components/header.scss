@@ -27,15 +27,15 @@
       .p-menuitem-text {
         color: $color-text-write;
       }
-    }
 
-    .p-menuitem-link:hover {
-      background: rgba($color-5, 0.28);
-      transform: translateY(-1px);
+      &:hover {
+        background: rgba($color-5, 0.28);
+        transform: translateY(-1px);
 
-      .p-menuitem-icon,
-      .p-menuitem-text {
-        color: $color-text-black;
+        .p-menuitem-icon,
+        .p-menuitem-text {
+          color: $color-text-black;
+        }
       }
     }
 
@@ -46,13 +46,13 @@
       font-weight: 700;
       border-radius: $radius-xs;
       box-shadow: 0 8px 16px rgba($color-4, 0.35);
-    }
 
-    .p-button:hover {
-      background: linear-gradient(135deg, $color-5 0%, $color-4 100%);
-      border-color: rgba($color-accent, 0.95);
-      color: $color-text-write;
-      transform: translateY(-1px);
+      &:hover {
+        background: linear-gradient(135deg, $color-5 0%, $color-4 100%);
+        border-color: rgba($color-accent, 0.95);
+        color: $color-text-write;
+        transform: translateY(-1px);
+      }
     }
 
     .p-inputtext {
