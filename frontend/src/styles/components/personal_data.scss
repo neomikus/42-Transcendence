@@ -2,7 +2,6 @@
 
 .personal_data-container {
     height: 100%;
-    animation: riseFade 0.45s ease-out;
 
     .surface-card {
         min-height: clamp(360px, 58vh, 760px);
@@ -14,10 +13,6 @@
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .surface-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.35), 0 34px 58px rgba($color-1, 0.48), inset 0 1px 0 rgba($color-accent, 0.28);
-    }
 
     .text-color-secondary {
         color: rgba($color-text-write, 0.74) !important;
