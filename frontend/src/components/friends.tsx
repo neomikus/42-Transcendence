@@ -1,18 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { TabView, TabPanel } from 'primereact/tabview'
 import { Avatar } from 'primereact/avatar'
+import { Dialog } from 'primereact/dialog'
+import { InputText } from 'primereact/inputtext'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { Toast } from 'primereact/toast'
-import { subscribeFriendRequests } from '../services/friendEvents'
+import { emitFriendRequest, subscribeFriendRequests } from '../services/friendEvents'
 
 interface Friend {
   id: number
   name: string
-  email: string
-  avatar?: string
   online: boolean
-  lastSeen?: string
 }
 
 interface PendingRequest {
@@ -24,10 +23,22 @@ interface PendingRequest {
 }
 
 const INITIAL_FRIENDS: Friend[] = [
-  { id: 1, name: 'alejanr2', email: 'alejanr2@student.42', avatar: 'https://via.placeholder.com/40?text=AR', online: true, lastSeen: 'Ahora' },
-  { id: 2, name: 'Andefern', email: 'andefern@student.42', avatar: 'https://via.placeholder.com/40?text=AF', online: false, lastSeen: 'Hace 2 horas' },
-  { id: 3, name: 'fcasaubo', email: 'fcasaubo@student.42', avatar: 'https://via.placeholder.com/40?text=FC', online: true, lastSeen: 'Ahora' },
-  { id: 4, name: 'xortega', email: 'xortega@student.42', avatar: 'https://via.placeholder.com/40?text=XO', online: false, lastSeen: 'Hace 5 horas' },
+  { id: 1, name: 'alejanr2', online: true },
+  { id: 2, name: 'Andefern', online: false },
+  { id: 3, name: 'fcasaubo', online: true },
+  { id: 4, name: 'xortega', online: false },
+  { id: 1, name: 'alejanr2', online: true },
+  { id: 2, name: 'Andefern', online: false },
+  { id: 3, name: 'fcasaubo', online: true },
+  { id: 4, name: 'xortega', online: false },
+  { id: 1, name: 'alejanr2', online: true },
+  { id: 2, name: 'Andefern', online: false },
+  { id: 3, name: 'fcasaubo', online: true },
+  { id: 4, name: 'xortega', online: false },
+  { id: 1, name: 'alejanr2', online: true },
+  { id: 2, name: 'Andefern', online: false },
+  { id: 3, name: 'fcasaubo', online: true },
+  { id: 4, name: 'xortega', online: false },
 ]
 
 const INITIAL_PENDING_REQUESTS: PendingRequest[] = [
@@ -42,6 +53,19 @@ function Friends() {
   
   const [friendsList, setFriendsList] = useState<Friend[]>(INITIAL_FRIENDS)
   const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>(INITIAL_PENDING_REQUESTS)
+  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [isAddFriendOpen, setIsAddFriendOpen] = useState(false)
+  const [friendNick, setFriendNick] = useState('')
+
+  const sortedFriends = useMemo(() => (
+    [...friendsList].sort((a, b) => {
+      if (a.online !== b.online) {
+        return a.online ? -1 : 1
+      }
+
+      return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    })
+  ), [friendsList])
 
   useEffect(() => {
     const unsubscribe = subscribeFriendRequests(({ nickname }) => {
@@ -83,6 +107,12 @@ function Friends() {
     return unsubscribe
   }, [])
 
+  useEffect(() => {
+    if (pendingRequests.length === 0 && activeTabIndex !== 0) {
+      setActiveTabIndex(0)
+    }
+  }, [pendingRequests.length, activeTabIndex])
+
   const handleAcceptRequest = (request: PendingRequest) => {
     confirmDialog({
       message: `¿Aceptar la solicitud de amistad de ${request.name}?`,
@@ -94,16 +124,29 @@ function Friends() {
           {
             id: request.id,
             name: request.name,
-            email: request.email,
-            avatar: request.avatar,
             online: false,
-            lastSeen: 'Nunca',
           },
         ])
         setPendingRequests((currentRequests) => currentRequests.filter((r) => r.id !== request.id))
         toast.current?.show({ severity: 'success', summary: 'Éxito', detail: `${request.name} ha sido añadido como amigo` })
       }
     })
+  }
+
+  const handleSendFriendRequest = () => {
+    const nickname = friendNick.trim()
+    if (!nickname) {
+      toast.current?.show({
+        severity: 'warn',
+        summary: 'Nick requerido',
+        detail: 'Introduce un nick para enviar la solicitud.',
+      })
+      return
+    }
+
+    emitFriendRequest({ nickname })
+    setFriendNick('')
+    setIsAddFriendOpen(false)
   }
 
   const handleRejectRequest = (request: PendingRequest) => {
@@ -136,22 +179,36 @@ function Friends() {
       <ConfirmDialog />
       
       <div className="surface-card border-round-sm p-4">
-        <TabView>
+        <TabView activeIndex={activeTabIndex} onTabChange={(e) => setActiveTabIndex(e.index)}>
           {/* TAB 1: Amigos */}
-          <TabPanel header={`Amigos (${friendsList.length})`} >
+          <TabPanel
+            header={
+              <div className="friends-tab-header">
+                <span>Amigos ({friendsList.length})</span>
+                <Button
+                  icon="pi pi-plus"
+                  className="friends-tab-add p-button-rounded p-button-text"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    setIsAddFriendOpen(true)
+                  }}
+                  tooltip="Agregar amigo"
+                />
+              </div>
+            }
+          >
             {friendsList.length > 0 ? (
               <div className="friends-list">
-                {friendsList.map((friend) => (
+                {sortedFriends.map((friend) => (
                   <div key={friend.id} className="friend-card">
                     <div className="friend-info">
-                      <div className="friend-avatar">
-                        <Avatar image={friend.avatar} label={friend.name[0].toUpperCase()} />
-                        <div className={`status-indicator ${friend.online ? 'online' : 'offline'}`}></div>
-                      </div>
                       <div className="friend-details">
-                        <h4 className="mb-0">{friend.name}</h4>
+                        <h4 className="mb-0">
+                          <span className={`status-dot ${friend.online ? 'online' : 'offline'}`} />
+                          {friend.name}
+                        </h4>
                         <small className="text-secondary">
-                          {friend.online ? <span className="text-success">● Online</span> : <span>Visto: {friend.lastSeen}</span>}
+                          {friend.online ? 'Online' : 'Offline'}
                         </small>
                       </div>
                     </div>
@@ -175,8 +232,8 @@ function Friends() {
           </TabPanel>
 
           {/* TAB 2: Solicitudes pendientes */}
-          <TabPanel header={`Solicitudes (${pendingRequests.length})`}>
-            {pendingRequests.length > 0 ? (
+          {pendingRequests.length > 0 && (
+            <TabPanel header={`Solicitudes (${pendingRequests.length})`}>
               <div className="requests-list">
                 {pendingRequests.map((request) => (
                   <div key={request.id} className="request-card">
@@ -204,16 +261,48 @@ function Friends() {
                   </div>
                 ))}
               </div>
-            ) : (
-              <div className="empty-state">
-                <i className="pi pi-inbox"></i>
-                <p>Sin solicitudes</p>
-              </div>
-            )}
-          </TabPanel>
+            </TabPanel>
+          )}
 
         </TabView>
       </div>
+
+      <Dialog
+        header="Nueva solicitud de amistad"
+        visible={isAddFriendOpen}
+        onHide={() => {
+          setIsAddFriendOpen(false)
+          setFriendNick('')
+        }}
+        className="add-friend-dialog"
+        style={{ width: 'min(92vw, 28rem)' }}
+      >
+        <div className="flex flex-column gap-3">
+          <span>Escribe el nick del usuario al que quieres enviar la solicitud.</span>
+          <InputText
+            value={friendNick}
+            onChange={(e) => setFriendNick(e.target.value)}
+            placeholder="ejemplo: alejanr2"
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSendFriendRequest()
+              }
+            }}
+          />
+          <div className="flex justify-content-end gap-2">
+            <Button
+              label="Cancelar"
+              text
+              onClick={() => {
+                setIsAddFriendOpen(false)
+                setFriendNick('')
+              }}
+            />
+            <Button label="Enviar solicitud" icon="pi pi-send" onClick={handleSendFriendRequest} />
+          </div>
+        </div>
+      </Dialog>
     </div>
   )
 }
