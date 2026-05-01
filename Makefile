@@ -6,6 +6,9 @@ BLUE = \033[0;34m
 YELLOW = \033[0;33m
 NC = \033[0m # No Color
 
+# Prefer Docker Compose v2 when available; override like `make DOCKER_COMPOSE=docker-compose docker-up`
+DOCKER_COMPOSE ?= $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
+
 install:
 	@echo "$(GREEN)Instalando dependencias del monorepo...$(NC)"
 	npm install
@@ -22,33 +25,33 @@ dev-backend:
 docker-db:
 	@echo "$(BLUE)Levantando PostgreSQL (se mantiene corriendo)...$(NC)"
 	@echo "$(BLUE)PostgreSQL: localhost:5432$(NC)"
-	docker-compose -f docker-compose.db.yml up -d
+	@$(DOCKER_COMPOSE) -f docker-compose.db.yml up -d --remove-orphans
 
 docker-up: docker-db
 	@echo "$(BLUE)Levantando frontend y backend...$(NC)"
 	@echo "$(BLUE)Frontend: http://localhost:3000$(NC)"
 	@echo "$(BLUE)Backend: http://localhost:4000$(NC)"
 	@sleep 2
-	docker-compose up -d
+	$(DOCKER_COMPOSE) up -d --remove-orphans
 	@echo "$(BLUE)Inicializando base de datos...$(NC)"
 	@sleep 3
-	docker exec transcendence-postgres psql -U postgres -d transcendence -f /docker-entrypoint-initdb.d/init.sql 2>/dev/null || true
+	@docker exec transcendence-postgres psql -U postgres -d transcendence -f /docker-entrypoint-initdb.d/init.sql 2>/dev/null || true
 	@echo "$(GREEN)✓ Base de datos lista$(NC)"
 
 docker-down:
 	@echo "$(YELLOW)Deteniendo frontend y backend (PostgreSQL sigue corriendo)...$(NC)"
-	docker-compose down
+	$(DOCKER_COMPOSE) down
 
 docker-down-all:
 	@echo "$(YELLOW)Deteniendo TODOS los servicios (incluyendo PostgreSQL)...$(NC)"
-	docker-compose down
-	docker-compose -f docker-compose.db.yml down
+	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) -f docker-compose.db.yml down
 
 docker-clean:
 	@echo "$(YELLOW)⚠️  ADVERTENCIA: Esto eliminará TODOS los datos de la base de datos$(NC)"
 	@echo "$(YELLOW)Deteniendo servicios y eliminando volúmenes...$(NC)"
-	docker-compose down -v
-	docker-compose -f docker-compose.db.yml down -v
+	$(DOCKER_COMPOSE) down -v
+	$(DOCKER_COMPOSE) -f docker-compose.db.yml down -v
 
 clean:
 	@echo "$(YELLOW)Limpiando node_modules y lock files...$(NC)"
